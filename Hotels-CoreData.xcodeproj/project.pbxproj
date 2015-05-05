@@ -20,6 +20,9 @@
 		CE7AF03B1AF85081001B10A8 /* HotelListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7AF03A1AF85081001B10A8 /* HotelListViewController.m */; };
 		CE7AF0411AF870DE001B10A8 /* VanillaTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7AF0401AF870DE001B10A8 /* VanillaTableViewController.m */; };
 		CE7AF0441AF87240001B10A8 /* RoomTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7AF0431AF87240001B10A8 /* RoomTableViewController.m */; };
+		CE7AF0461AF92197001B10A8 /* hotel.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CE7AF0451AF92197001B10A8 /* hotel.jpg */; };
+		CE7AF0481AF921D0001B10A8 /* room.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CE7AF0471AF921D0001B10A8 /* room.jpg */; };
+		CE7AF04B1AF92215001B10A8 /* ImageResizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7AF04A1AF92215001B10A8 /* ImageResizer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +60,10 @@
 		CE7AF0401AF870DE001B10A8 /* VanillaTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VanillaTableViewController.m; sourceTree = "<group>"; };
 		CE7AF0421AF87240001B10A8 /* RoomTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoomTableViewController.h; sourceTree = "<group>"; };
 		CE7AF0431AF87240001B10A8 /* RoomTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoomTableViewController.m; sourceTree = "<group>"; };
+		CE7AF0451AF92197001B10A8 /* hotel.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hotel.jpg; sourceTree = "<group>"; };
+		CE7AF0471AF921D0001B10A8 /* room.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = room.jpg; sourceTree = "<group>"; };
+		CE7AF0491AF92215001B10A8 /* ImageResizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageResizer.h; sourceTree = "<group>"; };
+		CE7AF04A1AF92215001B10A8 /* ImageResizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageResizer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +152,8 @@
 				CE7AF0431AF87240001B10A8 /* RoomTableViewController.m */,
 				CE7AF03F1AF870DE001B10A8 /* VanillaTableViewController.h */,
 				CE7AF0401AF870DE001B10A8 /* VanillaTableViewController.m */,
+				CE7AF0471AF921D0001B10A8 /* room.jpg */,
+				CE7AF0451AF92197001B10A8 /* hotel.jpg */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -158,6 +167,8 @@
 				CE7AF0341AF84EF5001B10A8 /* Room.m */,
 				CE7AF0301AF84A09001B10A8 /* JSONSeedParser.h */,
 				CE7AF0311AF84A09001B10A8 /* JSONSeedParser.m */,
+				CE7AF0491AF92215001B10A8 /* ImageResizer.h */,
+				CE7AF04A1AF92215001B10A8 /* ImageResizer.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -251,6 +262,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE7AF0461AF92197001B10A8 /* hotel.jpg in Resources */,
+				CE7AF0481AF921D0001B10A8 /* room.jpg in Resources */,
 				CE7AF0161AF8434A001B10A8 /* LaunchScreen.xib in Resources */,
 				CE7AF02C1AF847A1001B10A8 /* seed.json in Resources */,
 				CE7AF0131AF8434A001B10A8 /* Images.xcassets in Resources */,
@@ -271,6 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE7AF04B1AF92215001B10A8 /* ImageResizer.m in Sources */,
 				CE7AF0381AF84EF5001B10A8 /* Hotel.m in Sources */,
 				CE7AF0351AF84EF5001B10A8 /* Room.m in Sources */,
 				CE7AF03B1AF85081001B10A8 /* HotelListViewController.m in Sources */,

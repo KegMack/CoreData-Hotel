@@ -33,6 +33,10 @@
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
   [self.tableView registerClass:[UITableViewCell class]forCellReuseIdentifier:@"Hotel Cell"];
+  
+  UIImageView *imageView =  [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hotel.jpg"]];
+  self.tableView.tableHeaderView = imageView;
+  [self.tableView.tableHeaderView sizeToFit];
 }
 
 - (void)initializeHotels {
@@ -61,6 +65,7 @@
     self.hotels = results;
   }
 }
+
 
 
 // MARK: TableView Delegation

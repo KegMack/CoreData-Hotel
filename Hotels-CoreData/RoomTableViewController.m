@@ -23,8 +23,11 @@
   self.rooms = [self.hotel.rooms sortedArrayUsingDescriptors:descriptors];
   self.tableView.dataSource = self;
   self.navigationItem.title = self.hotel.name;
-}
+  UIImageView *imageView =  [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"room.jpg"]];
+  self.tableView.tableHeaderView = imageView;
+  [self.tableView.tableHeaderView sizeToFit];
 
+}
 
 // MARK TableView Delegation
 
