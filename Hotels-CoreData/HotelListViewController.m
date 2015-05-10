@@ -10,14 +10,11 @@
 #import "AppDelegate.h"
 #import "HotelListViewController.h"
 #import "RoomTableViewController.h"
-#import "JSONSeedParser.h"
 #import "Hotel.h"
-#import "Room.h"
 
-@interface HotelListViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface HotelListViewController () <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
-
-@property (strong,nonatomic) NSArray *hotels;
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -28,68 +25,94 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  [self initializeHotels];
-  self.navigationItem.title = @"Hotels";
+  self.tableView.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0 alpha:1];
+  AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
+  
+  self.fetchedResultsController = [appDelegate.hotelService fetchedResultsControllerForAllHotels];
+  self.fetchedResultsController.delegate = self;
+  NSError *fetchError;
+  [NSFetchedResultsController deleteCacheWithName:self.fetchedResultsController.cacheName];
+  [self.fetchedResultsController performFetch:&fetchError];
+  
+  self.navigationItem.title = @"Hotels";
   [self.tableView registerClass:[UITableViewCell class]forCellReuseIdentifier:@"Hotel Cell"];
   
-  UIImageView *imageView =  [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hotel.jpg"]];
+  UIImageView *imageView =  [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Hotel.jpg"]];
+  imageView.contentMode = UIViewContentModeScaleAspectFit;
+  imageView.backgroundColor = [UIColor blackColor];
   self.tableView.tableHeaderView = imageView;
   [self.tableView.tableHeaderView sizeToFit];
-}
-
-- (void)initializeHotels {
-  [self fetchHotels: 1];
-}
-
-- (void)fetchHotels:(int)attempts {   // recurses by # of attempts if fetch request fails
   
-  AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-  NSFetchRequest *hotelFetch = [NSFetchRequest fetchRequestWithEntityName:@"Hotel"];
-  
-  NSError *fetchError;
-  NSArray * results = [appDelegate.managedObjectContext executeFetchRequest:hotelFetch error:&fetchError];
-  if (fetchError) {
-    NSLog(@"%@",fetchError.localizedDescription);
-  }
-  else if (results.count <= 0) {
-    if(attempts > 0) {
-      [JSONSeedParser initHotelsFromJSONSeed];
-      attempts--;
-      [self fetchHotels:attempts];
-    } else {
-      NSLog(@"Could not initialize hotels from JSON Seed File");
-    }
-  } else {
-    self.hotels = results;
-  }
 }
 
 
+//MARK:  FetchedResultsController delegation
 
+-(void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+  [self.tableView beginUpdates];
+}
+
+-(void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+  [self.tableView endUpdates];
+}
+
+-(void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+  
+  switch (type) {
+    case NSFetchedResultsChangeInsert:
+      [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+      break;
+    case NSFetchedResultsChangeDelete:
+      [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+      break;
+    case NSFetchedResultsChangeUpdate:
+      [self configureCell:[self.tableView cellForRowAtIndexPath:indexPath] forIndexPath:indexPath];
+      break;
+    case NSFetchedResultsChangeMove:
+      [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+      [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+      break;
+    default:
+      break;
+  }
+  
+}
 // MARK: TableView Delegation
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return self.hotels.count;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+  return 1;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  return self.fetchedResultsController.fetchedObjects.count;
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  
   UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Hotel Cell"];
-  Hotel *hotel = self.hotels[indexPath.row];
+  cell.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0 alpha:1];
+  cell.textLabel.textColor = [UIColor whiteColor];
+  cell.detailTextLabel.textColor = [UIColor yellowColor];
+  [self configureCell:cell forIndexPath:indexPath];
+  return cell;
+}
+
+- (void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+  Hotel *hotel = (Hotel *)[self.fetchedResultsController objectAtIndexPath:indexPath];
   NSString *stars = [self returnNStars:[hotel.stars intValue]];
   cell.textLabel.text = [[NSString alloc] initWithFormat: @"%@     %@", hotel.name, stars];
   cell.detailTextLabel.text = [[NSString alloc] initWithFormat:@"%@ -- %lu rooms",hotel.location, (unsigned long)hotel.rooms.count];
-  
-  return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   
   RoomTableViewController *roomVC = [[RoomTableViewController alloc] init];
-  roomVC.hotel = self.hotels[indexPath.row];
+  roomVC.hotel = [self.fetchedResultsController objectAtIndexPath:indexPath];
   [self.navigationController pushViewController:roomVC animated:true];
-  
+  [tableView deselectRowAtIndexPath:indexPath animated:false];
 }
 
 - (NSString *)returnNStars:(int)n {

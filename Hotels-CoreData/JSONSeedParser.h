@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
 @interface JSONSeedParser : NSObject
-+ (void) initHotelsFromJSONSeed;
+
++ (void) initHotelsFromJSONSeedInContext:(NSManagedObjectContext *)context;
 
 @end

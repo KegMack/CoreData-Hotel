@@ -9,7 +9,7 @@
         <attribute name="insidePhoto" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="location" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <attribute name="outsidePhoto" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="outsidePhoto" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="stars" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="rooms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Room" inverseName="hotel" inverseEntity="Room" syncable="YES"/>
     </entity>
@@ -27,8 +27,8 @@
         <relationship name="reservation" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Reservation" inverseName="room" inverseEntity="Reservation" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Guest" positionX="36" positionY="-54" width="128" height="90"/>
-        <element name="Hotel" positionX="-387" positionY="9" width="128" height="135"/>
+        <element name="Guest" positionX="36" positionY="-54" width="128" height="88"/>
+        <element name="Hotel" positionX="-387" positionY="9" width="128" height="133"/>
         <element name="Reservation" positionX="61" positionY="78" width="128" height="103"/>
         <element name="Room" positionX="-191" positionY="18" width="128" height="118"/>
     </elements>
