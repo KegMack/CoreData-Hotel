@@ -21,19 +21,24 @@
   NSDate *nextDay = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitDay value:1 toDate:self.startDate options:0];
   [self.datePicker setDate:nextDay animated:false];
   self.datePicker.minimumDate = nextDay;
-  
-  self.instructionsLabel.text = @"Select Departure Date";
-  self.instructionsLabel.font = [UIFont fontWithName:@"Zapfino" size:23];
   [self.nextButton addTarget:self action:@selector(nextPressed) forControlEvents:UIControlEventTouchUpInside];
+  
+  self.instructionsLabel.font = [UIFont fontWithName:@"Zapfino" size:21];
+  self.instructionsLabel.minimumScaleFactor = 0.5;
+  self.instructionsLabel.adjustsFontSizeToFitWidth = true;
+  self.instructionsLabel.textAlignment = NSTextAlignmentCenter;
+  self.instructionsLabel.text = @"Select Departure Date";
+  [self.instructionsLabel sizeToFit];
 }
+
+
 
 -(void)nextPressed {
   
-  NSDate *selectedDate = self.datePicker.date;
   AvailabilityTableViewController *availabilityTableVC = [[AvailabilityTableViewController alloc] init];
   availabilityTableVC.startDate = self.startDate;
-  availabilityTableVC.endDate = selectedDate;
+  availabilityTableVC.endDate = self.datePicker.date;
   [self.navigationController pushViewController:availabilityTableVC animated:true];
-  
 }
+
 @end

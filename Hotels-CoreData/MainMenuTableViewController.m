@@ -32,7 +32,7 @@
   [self.navigationController.navigationBar setTitleTextAttributes:navBarSettings];
 
   self.navigationItem.title = @"Main Menu";
-  self.options = @[@"Browse Hotels",@"Room Availability", @"Look Up Reservation"];
+  self.options = @[@"Browse Hotels",@"Book a Room", @"Look Up Reservations"];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -43,6 +43,8 @@
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OptionCell" forIndexPath:indexPath];
   cell.textLabel.textAlignment = NSTextAlignmentCenter;
   cell.textLabel.font = [UIFont fontWithName:@"Zapfino" size:24];
+  cell.textLabel.minimumScaleFactor = 0.5;
+  cell.textLabel.adjustsFontSizeToFitWidth = YES;
   cell.textLabel.text = self.options[indexPath.row];
   cell.backgroundColor = [UIColor colorWithRed:0.6 green:0.6 blue:0 alpha:1];
   return cell;

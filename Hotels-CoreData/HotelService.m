@@ -45,20 +45,8 @@
   if (!error && count <=0) {
     [JSONSeedParser initHotelsFromJSONSeedInContext:self.coreDataStack.managedObjectContext];
   }
-
 }
 
-//-(NSArray *)fetchAllHotels {
-//  
-//  NSFetchRequest *hotelFetch = [NSFetchRequest fetchRequestWithEntityName:@"Hotel"];
-//  NSError *fetchError;
-//  NSArray *results = [self.coreDataStack.managedObjectContext executeFetchRequest:hotelFetch error:&fetchError];
-//  if (fetchError) {
-//    NSLog(@"%@",fetchError.localizedDescription);
-//    return nil;
-//  }
-//  return results;
-//}
 
 -(NSFetchedResultsController *)fetchedResultsControllerForAllHotels {
   
@@ -91,22 +79,16 @@
   
   return reservation;
 }
-//
-//-(NSFetchedResultsController *)fetchedResultsControllerForAllReservations {
-//  
-//  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Reservation"];
-//  NSSortDescriptor *reservationSort = [NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:true];
-//  fetchRequest.sortDescriptors = @[reservationSort];
-//  NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.coreDataStack.managedObjectContext sectionNameKeyPath:@"room.hotel.name" cacheName:@"AllReservationsCache"];
-//  
-//  return fetchedResultsController;
-//}
+
 
 -(NSFetchedResultsController *)fetchedResultsControllerForGuestReservationsByLastName:(NSString *)lastName {
   
   NSFetchRequest *reservationRequest = [NSFetchRequest fetchRequestWithEntityName:@"Reservation"];
-  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"guest.lastName == %@", lastName];
-  reservationRequest.predicate = predicate;
+  
+  if(![lastName isEqualToString:@""]) {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"guest.lastName == %@", lastName];
+    reservationRequest.predicate = predicate;
+  }
   
   NSError *error = nil;
   NSUInteger count = [self.coreDataStack.managedObjectContext countForFetchRequest:reservationRequest error:&error];
@@ -147,42 +129,6 @@
   return fetchedResultsController;
   
 }
-
-
-//-(void)bookReservationForRandy {
-  
-  //  AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-  //  NSManagedObjectContext *context = appDelegate.hotelServi;
-  //
-  //  NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Room"];
-  //  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@ AND number == %d",@"hotel.name",@"Fancy Estates",401];
-  //
-  //  fetchRequest.predicate = predicate;
-  //  NSError *fetchError;
-  //  NSArray *results = [context executeFetchRequest:fetchRequest error:&fetchError];
-  //  if (fetchError) {
-  //    NSLog(@"RandyFetch Error%@",fetchError.localizedDescription);
-  //  }
-  //
-  //  Room *room = results.lastObject;
-  //  Reservation *reservation = [NSEntityDescription insertNewObjectForEntityForName:@"Reservation" inManagedObjectContext:context];
-  //
-  //  reservation.room = room;
-  //  reservation.startDate = self.startDate;
-  //  reservation.endDate = self.endDate;
-  //
-  //  Guest *guest = [NSEntityDescription insertNewObjectForEntityForName:@"Guest" inManagedObjectContext:context];
-  //  guest.name = @"Randy Kitt";
-  //  reservation.guest = guest;
-  //
-  //  NSError *saveError;
-  //
-  //  if (![context save:&saveError]) {
-  //    NSLog(@"SaveError RandyRes%@",saveError.localizedDescription);
-  //  }
-  
-//}
-
 
 
 @end

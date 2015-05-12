@@ -49,7 +49,7 @@ CGFloat MIN_IMAGE_HEIGHT = 80.0;
   [self initializeNameFields];
   [self initializeReservationInfoLabel];
   [self initializeSubmitButton];
-  self.navigationItem.title = @"Finalize Reservation";
+  self.navigationItem.title = @"Confirm Reservation";
 }
 
 -(BOOL)shouldAutorotate {
@@ -83,7 +83,7 @@ CGFloat MIN_IMAGE_HEIGHT = 80.0;
   self.imageView.image = image;
   self.imageView.contentMode = UIViewContentModeScaleAspectFit;
   self.imageView.backgroundColor = [UIColor blackColor];
-  [self.imageView sizeThatFits:image.size];
+  //[self.imageView sizeThatFits:image.size];
 }
 
 - (void)initializeReservationInfoLabel {
@@ -97,6 +97,8 @@ CGFloat MIN_IMAGE_HEIGHT = 80.0;
   self.reservationInfoLabel.numberOfLines = 0;
   self.reservationInfoLabel.textAlignment = NSTextAlignmentCenter;
   self.reservationInfoLabel.font = [UIFont fontWithName:@"Zapfino" size:12];
+  self.reservationInfoLabel.adjustsFontSizeToFitWidth = true;
+  self.reservationInfoLabel.minimumScaleFactor = 0.75;
   self.reservationInfoLabel.text = [NSString stringWithFormat:@" Reservation at the %@ \n %@-star %@\n in %@\n Room %@ \n from %@ \n through %@ ", hotelAdjective ,self.room.hotel.stars, self.room.hotel.name, self.room.hotel.location, self.room.number, formattedStartDate, formattedEndDate];
 
 }
@@ -118,10 +120,11 @@ CGFloat MIN_IMAGE_HEIGHT = 80.0;
       [self.navigationController popViewControllerAnimated:true];
     }];
     [alertController addAction:keepBookingAction];
-    UIAlertAction *homeAction = [UIAlertAction actionWithTitle:@"Start Over" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *homeAction = [UIAlertAction actionWithTitle:@"Main Menu" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
       [self.navigationController popToRootViewControllerAnimated:true];
     }];
     [alertController addAction:homeAction];
+    
     [self presentViewController:alertController animated:true completion:nil];
   }
 }
@@ -131,7 +134,7 @@ CGFloat MIN_IMAGE_HEIGHT = 80.0;
 - (void)viewDidLayoutSubviews {
   if(!self.isLaidOut) {
     self.availableVerticalSpaceForImage = self.view.frame.size.height - [self totalUsedVerticalSpace];
-    if(self.availableVerticalSpaceForImage > MIN_IMAGE_HEIGHT) {
+    if(self.availableVerticalSpaceForImage >= MIN_IMAGE_HEIGHT) {
       [self initializeImageView];
     }
     self.isLaidOut = true;

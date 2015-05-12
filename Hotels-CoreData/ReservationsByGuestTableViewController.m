@@ -85,15 +85,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   
   UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Guest Cell"];
-  cell.backgroundColor = [UIColor colorWithRed:0.7 green:0 blue:0.7 alpha:1];
   [self configureCell:cell forIndexPath:indexPath];
   return cell;
 }
 
 - (void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
+  
   Reservation *reservation = [self.fetchedResultsController objectAtIndexPath:indexPath];
   NSString *startDate = [self.dateFormatter stringFromDate:reservation.startDate];
   NSString *endDate = [self.dateFormatter stringFromDate:reservation.endDate];
+  cell.backgroundColor = [UIColor colorWithRed:0.7 green:0 blue:0.7 alpha:1];
   cell.textLabel.text = [[NSString alloc] initWithFormat:@"%@ - %@", startDate, endDate ];
   cell.detailTextLabel.text = [[NSString alloc] initWithFormat:@"'%@', room %@",reservation.room.hotel.name, reservation.room.number];
 }

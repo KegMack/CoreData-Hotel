@@ -46,20 +46,23 @@
 -(void)addConstraintsToSuperView {
   
   NSLayoutConstraint *datePickerCenterX = [NSLayoutConstraint constraintWithItem:self.datePicker attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
-  NSLayoutConstraint *datePickerCenterY = [NSLayoutConstraint constraintWithItem:self.datePicker attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0];
-  [self.view addConstraints:@[datePickerCenterX, datePickerCenterY]];
+  [self.view addConstraints:@[datePickerCenterX]];
+
+//  NSLayoutConstraint *datePickerCenterY = [NSLayoutConstraint constraintWithItem:self.datePicker attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0];
+//  [self.view addConstraints:@[datePickerCenterY]];
   
   NSDictionary *views = @{@"instructionsLabel" : self.instructionsLabel, @"nextButton" : self.nextButton, @"datePicker" : self.datePicker};
   
   NSLayoutConstraint *labelCenterX = [NSLayoutConstraint constraintWithItem:self.instructionsLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
   [self.view addConstraint:labelCenterX];
-  NSArray *labelYConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[instructionsLabel]-[datePicker]" options:0 metrics:nil views:views];
-  [self.view addConstraints:labelYConstraints];
+  NSLayoutConstraint *labelWidth = [NSLayoutConstraint constraintWithItem:self.instructionsLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeWidth multiplier:0.8 constant:0];
+  [self.view addConstraint:labelWidth];
   
   NSLayoutConstraint *buttonCenterX = [NSLayoutConstraint constraintWithItem:self.nextButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0];
   [self.view addConstraint:buttonCenterX];
-  NSArray *buttonYConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[datePicker]-20-[nextButton]" options:0 metrics:nil views:views];
-  [self.view addConstraints:buttonYConstraints];
+  
+  NSArray *yConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-60-[instructionsLabel]-10-[datePicker]-10-[nextButton]-20-|" options:0 metrics:nil views:views];
+  [self.view addConstraints:yConstraints];
 }
 
 @end

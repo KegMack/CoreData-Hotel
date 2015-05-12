@@ -57,7 +57,7 @@
 }
 
 -(void)handleWillChangeStore:(NSNotification *)notification {
-  
+  NSLog(@"Will change store");
   [self.managedObjectContext performBlock:^{
     if ([self.managedObjectContext hasChanges]) {
       NSError *saveError;
@@ -119,9 +119,11 @@
     storeType = NSSQLiteStoreType;
   }
   
-  NSDictionary *options = @{ NSMigratePersistentStoresAutomaticallyOption : @true, NSInferMappingModelAutomaticallyOption : @true };
-  //,NSPersistentStoreUbiquitousContentNameKey : @"HotelCoreDataiCloud", NSPersistentStoreUbiquitousContentURLKey : [self cloudDirectory] };
-  
+  NSMutableDictionary *options = [NSMutableDictionary dictionaryWithDictionary: @{ NSMigratePersistentStoresAutomaticallyOption : @true, NSInferMappingModelAutomaticallyOption : @true}];
+  if(!self.isForTesting) {
+    [options setObject:@"HotelCoreDataiCloud" forKey:NSPersistentStoreUbiquitousContentNameKey];
+    //[options setObject:[self cloudDirectory] forKey:NSPersistentStoreUbiquitousContentURLKey];
+  }
   
   if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType configuration:nil URL:storeURL options:options error:&error]) {
     // Report any error we got.

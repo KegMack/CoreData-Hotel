@@ -75,7 +75,6 @@
   } else {
     NSLog(@"New Hotel seed successfully created and saved");
   }
-
   
 }
 

@@ -15,8 +15,6 @@
 
 @interface HotelService : NSObject
 
-//@property (strong,nonatomic) NSManagedObjectContext *context;
-
 -(instancetype)initWithCoreDataStack:(CoreDataStack *)coreDataStack;
 -(void)saveContext;
 -(void)initializeHotelsFromSeedIfNeeded;

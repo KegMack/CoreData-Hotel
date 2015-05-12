@@ -24,6 +24,7 @@
   self.rooms = [self.hotel.rooms sortedArrayUsingDescriptors:descriptors];
   self.tableView.dataSource = self;
   self.navigationItem.title = self.hotel.name;
+  
   UIImageView *imageView = [[UIImageView alloc] initWithImage:[self.hotel getOutsidePhoto]];
   imageView.contentMode = UIViewContentModeScaleAspectFit;
   imageView.backgroundColor = [UIColor blackColor];

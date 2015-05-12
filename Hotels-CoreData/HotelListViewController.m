@@ -93,9 +93,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   
   UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Hotel Cell"];
-  cell.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0 alpha:1];
-  cell.textLabel.textColor = [UIColor whiteColor];
-  cell.detailTextLabel.textColor = [UIColor yellowColor];
   [self configureCell:cell forIndexPath:indexPath];
   return cell;
 }
@@ -103,6 +100,9 @@
 - (void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
   Hotel *hotel = (Hotel *)[self.fetchedResultsController objectAtIndexPath:indexPath];
   NSString *stars = [self returnNStars:[hotel.stars intValue]];
+  cell.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0 alpha:1];
+  cell.textLabel.textColor = [UIColor whiteColor];
+  cell.detailTextLabel.textColor = [UIColor yellowColor];
   cell.textLabel.text = [[NSString alloc] initWithFormat: @"%@     %@", hotel.name, stars];
   cell.detailTextLabel.text = [[NSString alloc] initWithFormat:@"%@ -- %lu rooms",hotel.location, (unsigned long)hotel.rooms.count];
 }

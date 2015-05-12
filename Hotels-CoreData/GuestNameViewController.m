@@ -32,13 +32,13 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  [self initializeNameFields];
+  [self initializeNameField];
   [self initializeInfoLabel];
   [self initializeSearchButton];
   self.navigationItem.title = @"Search for Reservation";
 }
 
-- (void)initializeNameFields {
+- (void)initializeNameField {
   self.lastNameTextField.placeholder = @"Last Name";
   self.lastNameTextField.backgroundColor = [UIColor lightGrayColor];
   self.lastNameTextField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -55,16 +55,18 @@
 - (void)initializeInfoLabel {
   self.infoLabel.numberOfLines = 0;
   self.infoLabel.textAlignment = NSTextAlignmentCenter;
+  self.infoLabel.adjustsFontSizeToFitWidth = true;
+  self.infoLabel.minimumScaleFactor = 0.5;
   self.infoLabel.font = [UIFont fontWithName:@"Verdana-Italic" size:24];
-  self.infoLabel.text = [NSString stringWithFormat:@"Please enter the last name of the reservation, then click below.  \nNote:  name fields are case-sensitive."];
+  self.infoLabel.text = [NSString stringWithFormat:@"Please enter the last name of the reservation, then click below. \n\nLeave text field blank to display all reservations \n\nNote: Name fields are case-sensitive."];
 }
 
 - (void)searchForReservation {
 
-if ([self.lastNameTextField.text isEqualToString:@""]) {
-    [self shake:self.lastNameTextField];
-  }
-  else {
+//if ([self.lastNameTextField.text isEqualToString:@""]) {
+//    [self shake:self.lastNameTextField];
+//  }
+//  else {
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSFetchedResultsController *fetchedResultsController = [appDelegate.hotelService fetchedResultsControllerForGuestReservationsByLastName:self.lastNameTextField.text];
     
@@ -80,7 +82,7 @@ if ([self.lastNameTextField.text isEqualToString:@""]) {
       [alertController addAction:action];
       [self presentViewController:alertController animated:true completion:nil];
     }
-  }
+//  }
 }
 
 

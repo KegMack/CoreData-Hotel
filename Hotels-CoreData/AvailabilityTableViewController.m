@@ -32,6 +32,9 @@
   self.tableView.dataSource = self;
   [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier: @"Available Room Cell"];
   
+  self.dateFormatter = [[NSDateFormatter alloc] init];
+  self.dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+  
   CGSize screenSize = [[UIScreen mainScreen] bounds].size;   // crappy way to do it, but can't get width of view or tableview.... not a final solution, but works for now
   [self initializeTableViewHeaderForSize:screenSize];
 
@@ -53,8 +56,7 @@
 -(void)initializeTableViewHeaderForSize:(CGSize)size {
   CGFloat labelHeight = 40;
   
-  self.dateFormatter = [[NSDateFormatter alloc] init];
-  self.dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+
   self.tableView.tableHeaderView = nil;
   UIImage *image = [UIImage imageNamed:@"checkin.jpg"];
   CGFloat aspectRatio = image.size.width / image.size.height;
@@ -128,13 +130,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Available Room Cell"];
-  cell.backgroundColor = [UIColor colorWithRed:0.7 green:0.7 blue:0 alpha:1];
   [self configureCell:cell forIndexPath:indexPath];
   return cell;
 }
 
 - (void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath {
   Room *room = [self.fetchedResultsController objectAtIndexPath:indexPath];
+  cell.backgroundColor = [UIColor colorWithRed:0.7 green:0.7 blue:0 alpha:1];
   cell.textLabel.text = [[NSString alloc] initWithFormat:@"Room %@", room.number];
   int rate = (int)(room.rate.doubleValue * 100);
   cell.textLabel.text = [[NSString alloc] initWithFormat:@"Room %@ - %@ Beds, $%d/night",room.number, room.beds, rate];
